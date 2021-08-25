@@ -152,3 +152,4 @@ frontend/static/js/jquery.js*
 tellme/screenshots/
 media/*
 staticfiles
+.vscode
