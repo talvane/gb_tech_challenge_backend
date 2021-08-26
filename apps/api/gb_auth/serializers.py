@@ -21,12 +21,29 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
 
+
+class UserSerializerPutPatch(serializers.ModelSerializer):
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    password = serializers.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'password'
+        ]
+
     def update(self, instance, validated_data):
-        instance.username = validated_data.get('username')
-        instance.first_name = validated_data.get('first_name')
-        instance.last_name = validated_data.get('last_name')
-        instance.email = validated_data.get('email')
-        instance.cpf = validated_data.get('cpf')
-        instance.password = make_password(validated_data.get('password'))
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name
+        )
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name
+        )
+        if validated_data.get('password', ''):
+            instance.password = make_password(validated_data.get('password'))
         instance.save()
+
         return instance
