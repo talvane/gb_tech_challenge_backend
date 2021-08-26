@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'apps.gb_auth',
+    'apps.sales',
 ]
 
 MIDDLEWARE = [

@@ -144,7 +144,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ('first_name',)
 
     def __str__(self):
-        return self.email
+        return self.cpf
 
     def clean(self):
         super(User, self).clean()
