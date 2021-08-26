@@ -141,6 +141,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('Dealer')
         verbose_name_plural = _('Resellers')
+        ordering = ('first_name',)
 
     def __str__(self):
         return self.email
