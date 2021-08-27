@@ -91,3 +91,7 @@ class Sale(CommonModel):
         else:
             self.perc_cashback = 20
             self.value_cashback = ((self.value * 20)/100)
+
+        logger.info(
+            f'Calc CashBack for id {self.id}, value {self.value_cashback}'
+        )
