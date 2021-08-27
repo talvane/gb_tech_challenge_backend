@@ -11,3 +11,4 @@ class SaleSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at'
         ]
+        ready_only_fields = ('status',)
