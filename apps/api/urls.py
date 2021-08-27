@@ -28,6 +28,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path("dealer/", include("apps.api.gb_auth.urls", namespace="dealer")),
+    path("sale/", include("apps.api.sales.urls", namespace="sale")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
