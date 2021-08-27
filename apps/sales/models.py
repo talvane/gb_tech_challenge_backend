@@ -9,7 +9,7 @@ User = get_user_model()
 
 class Sale(CommonModel):
     STATUS__CHOICES = (
-        ('IN', _('In validation')),
+        ('IN', _('In Validation')),
         ('AP', _('Approved')),
     )
 
@@ -22,7 +22,7 @@ class Sale(CommonModel):
     )
     status = models.CharField(
         verbose_name=_('Status'), max_length=2,
-        choices=STATUS__CHOICES, default=None
+        choices=STATUS__CHOICES, default='IN'
     )
 
     class Meta:
