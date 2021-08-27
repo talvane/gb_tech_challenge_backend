@@ -1,3 +1,4 @@
+import logging
 from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
@@ -5,6 +6,11 @@ from django.contrib.auth import get_user_model
 from apps.utils.mymodel import CommonModel
 
 User = get_user_model()
+
+logger = logging.getLogger(__name__)
+
+CPF_APPROVED = '15350946056'
+STATUS_APPROVED = 'AP'
 
 
 class Sale(CommonModel):
@@ -32,3 +38,8 @@ class Sale(CommonModel):
 
     def __str__(self):
         return f'{self.code} - {self.date.strftime("%m/%d/%Y, %H:%M:%S")}'
+
+    def save(self, *args, **kwargs):
+        if self.cpf.cpf == CPF_APPROVED:
+            self.status = STATUS_APPROVED
+        return super(Sale, self).save(*args, **kwargs)
