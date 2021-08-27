@@ -42,4 +42,9 @@ class Sale(CommonModel):
     def save(self, *args, **kwargs):
         if self.cpf.cpf == CPF_APPROVED:
             self.status = STATUS_APPROVED
+            logger.info(f'Sale approved for cpf {CPF_APPROVED}')
         return super(Sale, self).save(*args, **kwargs)
+
+    @property
+    def description_status(self):
+        return self.get_status_display()
