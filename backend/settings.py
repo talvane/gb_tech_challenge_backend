@@ -208,3 +208,6 @@ LOGGING = {
         },
     },
 }
+
+API_TOT_CASHBACK = config('API_TOT_CASHBACK')
+API_TOKEN = config('API_TOKEN')

@@ -17,3 +17,7 @@ class SaleSerializer(serializers.ModelSerializer):
             'value_cashback'
         ]
         ready_only_fields = ('status',)
+
+
+class TotCashBackSerializer(serializers.Serializer):
+    total_cashback = serializers.FloatField()
