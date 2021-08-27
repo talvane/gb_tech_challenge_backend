@@ -78,13 +78,16 @@ class Sale(CommonModel):
         ).aggregate(Sum('value'))
 
         if tot_month_value['value__sum']:
-            if tot_month_value['value__sum'] <= 1000:
-                self.perc_cashback = 10
-                self.value_cashback = ((self.value * 10)/100)
-            elif tot_month_value['value__sum'] > 1000 and \
-                    tot_month_value['value__sum'] <= 1500:
-                self.perc_cashback = 15
-                self.value_cashback = ((self.value * 15)/100)
-            else:
-                self.perc_cashback = 20
-                self.value_cashback = ((self.value * 20)/100)
+            val_index = tot_month_value['value__sum']
+        else:
+            val_index = self.value
+
+        if val_index <= 1000:
+            self.perc_cashback = 10
+            self.value_cashback = ((self.value * 10)/100)
+        elif val_index > 1000 and val_index <= 1500:
+            self.perc_cashback = 15
+            self.value_cashback = ((self.value * 15)/100)
+        else:
+            self.perc_cashback = 20
+            self.value_cashback = ((self.value * 20)/100)
