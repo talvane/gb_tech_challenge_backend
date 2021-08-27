@@ -17,7 +17,7 @@ class Sale(CommonModel):
     value = models.FloatField(verbose_name=_('Product Value'))
     date = models.DateTimeField(verbose_name=_('Date'))
     cpf = models.ForeignKey(
-        User, verbose_name=_('Cpf'),
+        User, to_field='cpf', db_column='cpf', verbose_name=_('Cpf'),
         on_delete=models.CASCADE
     )
     status = models.CharField(
