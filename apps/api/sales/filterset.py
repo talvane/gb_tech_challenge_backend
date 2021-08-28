@@ -1,5 +1,6 @@
 from django_filters.filters import ChoiceFilter, DateFromToRangeFilter
 from django.utils.translation import ugettext as _
+from django_filters import FilterSet, CharFilter
 
 from apps.utils.filterset import SearchFilterSet
 from apps.sales.models import Sale
@@ -29,3 +30,11 @@ class SaleFilter(SearchFilterSet):
         elif(value == 'AP'):
             return queryset.filter(status='AP')
         return queryset
+
+
+class TotCashBackFilter(FilterSet):
+    cpf = CharFilter(required=True)
+
+    class Meta:
+        model = Sale
+        fields = ['cpf']
