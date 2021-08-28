@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    entrypoint: ./entrypoint.sh
+
+    volumes:
+      - ./:/var/www
+    ports:
+      - 8000:8000
+    env_file: 
+      - ./.env
+    networks: 
+      - app-network
+    # depends_on: 
+    #   - api-db
+    depends_on:
+      api-db:
+        condition: service_healthy
+    links: 
+      - api-db
+  
+  api-db:
+    image: postgres:alpine
+    container_name: api-db
+    tty: true
+    ports: 
+      - 5432:5432
+    volumes:
+      - ./.docker/dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=gb_tech
+    networks: 
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks: 
+  app-network:
+    driver: bridge
