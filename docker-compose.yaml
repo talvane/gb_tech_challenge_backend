@@ -17,8 +17,6 @@ services:
       - ./.env
     networks: 
       - app-network
-    # depends_on: 
-    #   - api-db
     depends_on:
       api-db:
         condition: service_healthy
