@@ -73,8 +73,27 @@ class Sale(CommonModel):
         return self.get_status_display()
 
     def calc_cashback(self):
+        cashback = CalcCashBack(
+            cpf=self.cpf_id, date=self.date, value=self.value
+        )
+        dict_value = cashback.get_value()
+        self.perc_cashback = dict_value['perc_cashback']
+        self.value_cashback = dict_value['value_cashback']
+        logger.info(
+            f'Calc CashBack for id {self.id}, value {self.value_cashback}'
+        )
+
+
+class CalcCashBack():
+
+    def __init__(self, cpf, date, value):
+        self.cpf = cpf
+        self.date = date
+        self.value = value
+
+    def get_value(self):
         tot_month_value = Sale.objects.filter(
-            cpf_id=self.cpf_id, date__month=self.date.month
+            cpf_id=self.cpf, date__month=self.date.month
         ).aggregate(Sum('value'))
 
         if tot_month_value['value__sum']:
@@ -83,15 +102,17 @@ class Sale(CommonModel):
             val_index = self.value
 
         if val_index <= 1000:
-            self.perc_cashback = 10
-            self.value_cashback = ((self.value * 10)/100)
+            return {
+                'perc_cashback': 10,
+                'value_cashback': ((self.value * 10)/100)
+            }
         elif val_index > 1000 and val_index <= 1500:
-            self.perc_cashback = 15
-            self.value_cashback = ((self.value * 15)/100)
+            return {
+                'perc_cashback': 15,
+                'value_cashback': ((self.value * 15)/100)
+            }
         else:
-            self.perc_cashback = 20
-            self.value_cashback = ((self.value * 20)/100)
-
-        logger.info(
-            f'Calc CashBack for id {self.id}, value {self.value_cashback}'
-        )
+            return {
+                'perc_cashback': 20,
+                'value_cashback': ((self.value * 20)/100)
+            }
